@@ -1,10 +1,6 @@
 import streamlit as st
-# import tensorflow as tf
-# from tensorflow import keras
-# from tensorflow.keras import layers
-# import tensorflow_hub as hub
 import numpy as np
-
+from utils import prediction_felin
 # from scipy.ndimage.interpolation import zoom
 # from streamlit_drawable_canvas import st_canvas
 
@@ -16,18 +12,20 @@ import numpy as np
 #     return model
 
 
-# SAVED_MODEL = "saved_models/felin.h5"
-# # MODEL = keras.models.load_model((SAVED_MODEL), custom_objects={'KerasLayer':hub.KerasLayer})
-# MODEL = keras.models.load_model(SAVED_MODEL, custom_objects={'KerasLayer': hub.KerasLayer})
-# # MODEL = load_model_with_hub(SAVED_MODEL)
-# LABELS = ['Acinonyx_Jubatus', 'Neofelis_Nebulosa', 'Panthera_Leo', 'Panthera_Onca', 'Panthera_Pardus', 'Panthera_Tigris', 'Puma_Concolor']
-
-
 def main():
-    st.title("Classification des grands félins")
-    st.subheader("Enter your text below:")
 
-    user_input = st.text_area("Your Text:")
+    st.title(":tiger: Quel est le félin ? :tiger:")
+    st.subheader("Drop l'image dans le champs ci-dessous et découvre a quel famille de félin elle appartient :")
+
+    uploaded_files = st.file_uploader("Choose a CSV file", accept_multiple_files=True)
+    for uploaded_file in uploaded_files:
+        bytes_data = uploaded_file.read()
+        # st.write("filename:", uploaded_file.name)
+        # st.write(bytes_data)
+        str = prediction_felin(img=bytes_data)
+        st.write("Il s'agit d'un ", str,'. Pour en savoir plus, voici un lien vers la page wikipédia :')
+        st.write("")
+
     
     # if st.button("Analyze Sentiment"):
     #     result = analyze_sentiment(user_input)
