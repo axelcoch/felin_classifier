@@ -51,18 +51,15 @@ def prediction_felin(img, model=MODEL, labels=LABELS, file=False):
     Make a prediction with our model
 
     Args:
-      img
-      model
-      labels
+      img    : file or bytes
+      model  : keras model
+      labels : labels of our model prediction
       file (boolean) : True for path, False for bytes
     
     Returns:
       predicted_label: str.
   """
-  if file:
-    image = load_image_from_file(img)
-  else:
-    image = load_image_from_bytes(img)
+  image = load_image_from_file(img) if file else load_image_from_bytes(img)
   predictions = model.predict(image)
   class_index = tf.argmax(predictions[0])
   predicted_label = labels[class_index]
